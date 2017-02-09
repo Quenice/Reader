@@ -1,0 +1,20 @@
+package com.quenice.reader.base;
+
+
+/**
+ * QReader Application
+ * Created by qiubb on 2017/2/9.
+ */
+public class Application extends android.app.Application {
+	private static Application mApplication;
+
+	public static synchronized Application getInstance() {
+		return mApplication;
+	}
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		mApplication = this;
+	}
+}
