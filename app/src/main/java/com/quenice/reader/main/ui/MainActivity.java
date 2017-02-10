@@ -1,4 +1,4 @@
-package com.quenice.reader;
+package com.quenice.reader.main.ui;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -7,19 +7,29 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.quenice.reader.R;
 import com.quenice.reader.base.BaseActivity;
+import com.quenice.reader.base.Callback;
+import com.quenice.reader.common.http.helper.HttpHelper;
+import com.quenice.reader.common.http.model.ZhihuDaily;
+import com.quenice.reader.main.adapter.NewsListAdapter;
 
 public class MainActivity extends BaseActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
 
+	private NewsListAdapter mNewListAdapter;
+	private RecyclerView mRecyclerView;
 	@Override
 	protected void initVars() {
 		super.initVars();
+		mRecyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -47,6 +57,25 @@ public class MainActivity extends BaseActivity
 	@Override
 	protected boolean hasToolbar() {
 		return true;
+	}
+
+	@Override
+	protected void initData() {
+		super.initData();
+		HttpHelper.getInstance().zhihuDailyListLatest(this, new Callback<ZhihuDaily>() {
+			@Override
+			public void onSuccess(ZhihuDaily data, String msg) {
+				if(data == null) return;
+				mNewListAdapter = new NewsListAdapter(MainActivity.this, data.getStories());
+				mRecyclerView.setAdapter(mNewListAdapter);
+				mRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+			}
+
+			@Override
+			public void onFailure(int code, String msg) {
+
+			}
+		});
 	}
 
 	@Override

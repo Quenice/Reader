@@ -9,9 +9,20 @@ public final class Constants {
 	private Constants() {
 	}
 
+	/**
+	 * 当前的内容类型
+	 */
+	public interface Content {
+		/**
+		 * 知乎日报
+		 */
+		int ZHIHUDAILY = 0;
+	}
+
 	public interface Urls {
-		interface ZhiHu {
-			String LIST = "";
+		interface ZhiHuDaily {
+			String BASE = "http://news-at.zhihu.com/api/4/";
+			String LIST = "news/latest";
 			String DETAIL = "";
 		}
 	}

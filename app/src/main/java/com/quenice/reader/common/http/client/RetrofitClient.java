@@ -1,12 +1,11 @@
-package com.quenice.reader.common.http.client.client;
+package com.quenice.reader.common.http.client;
 
 import android.content.Context;
 
 import com.google.gson.JsonSyntaxException;
 import com.quenice.reader.base.Callback;
-import com.quenice.reader.common.http.client.handler.HeaderInterceptor;
-import com.quenice.reader.common.http.client.handler.HttpLoggingInterceptor;
-import com.quenice.reader.common.http.client.helper.HttpService;
+import com.quenice.reader.common.http.handler.HttpLoggingInterceptor;
+import com.quenice.reader.common.http.helper.HttpService;
 import com.quenice.reader.common.utils.Constants;
 import com.quenice.reader.common.utils.NetUtils;
 
@@ -63,7 +62,6 @@ public class RetrofitClient {
 	private void init() {
 		mHttpLoggingInterceptor = new HttpLoggingInterceptor();
 		mOkHttpClient = new OkHttpClient.Builder()
-				.addInterceptor(new HeaderInterceptor())
 				.addInterceptor(mHttpLoggingInterceptor)
 				.connectTimeout(20, TimeUnit.SECONDS)
 				.readTimeout(30, TimeUnit.SECONDS)
@@ -71,6 +69,7 @@ public class RetrofitClient {
 				.build();
 		mRetrofit = new Retrofit.Builder()
 				.client(mOkHttpClient)
+				.baseUrl(Constants.Urls.ZhiHuDaily.BASE)
 				.addConverterFactory(GsonConverterFactory.create())
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 				.build();
