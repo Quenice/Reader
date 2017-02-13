@@ -22,14 +22,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 		hasToolbar = hasToolbar();
 		if (hasToolbar) {
 			mToolbar = (Toolbar) findViewById(R.id.toolbar);
-			if (mToolbar != null)
+			if (mToolbar != null) {
+				mToolbar.setTitle(initTitle());
 				setSupportActionBar(mToolbar);
-			else
+			} else
 				hasToolbar = false;
-		}
-
-		if (hasToolbar) {
-			mToolbar.setTitle(initTitle());
 		}
 
 		initVars();

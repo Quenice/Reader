@@ -22,8 +22,9 @@ public final class Constants {
 	public interface Urls {
 		interface ZhiHuDaily {
 			String BASE = "http://news-at.zhihu.com/api/4/";
-			String LIST = "news/latest";
-			String DETAIL = "";
+			String LIST_LATEST = "news/latest";
+			String LIST_BEFORE = "news/before";
+			String DETAIL = "news";
 		}
 	}
 

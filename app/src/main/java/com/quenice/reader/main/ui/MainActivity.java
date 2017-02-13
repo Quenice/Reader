@@ -4,11 +4,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,20 +16,18 @@ import android.view.View;
 
 import com.quenice.reader.R;
 import com.quenice.reader.base.BaseActivity;
-import com.quenice.reader.base.Callback;
-import com.quenice.reader.common.http.helper.HttpHelper;
-import com.quenice.reader.common.http.model.ZhihuDaily;
-import com.quenice.reader.main.adapter.NewsListAdapter;
+
+import static com.quenice.reader.R.id.content_main;
 
 public class MainActivity extends BaseActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
 
-	private NewsListAdapter mNewListAdapter;
-	private RecyclerView mRecyclerView;
+
+	private int currentId;
+
 	@Override
 	protected void initVars() {
 		super.initVars();
-		mRecyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -50,8 +48,19 @@ public class MainActivity extends BaseActivity
 	}
 
 	@Override
+	protected void initData() {
+		super.initData();
+		switchNews(R.id.nav_zhihu_daily);
+	}
+
+	@Override
 	protected int getContentView() {
 		return R.layout.activity_main;
+	}
+
+	@Override
+	protected int initTitle() {
+		return R.string.zhihudaily;
 	}
 
 	@Override
@@ -59,24 +68,6 @@ public class MainActivity extends BaseActivity
 		return true;
 	}
 
-	@Override
-	protected void initData() {
-		super.initData();
-		HttpHelper.getInstance().zhihuDailyListLatest(this, new Callback<ZhihuDaily>() {
-			@Override
-			public void onSuccess(ZhihuDaily data, String msg) {
-				if(data == null) return;
-				mNewListAdapter = new NewsListAdapter(MainActivity.this, data.getStories());
-				mRecyclerView.setAdapter(mNewListAdapter);
-				mRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-			}
-
-			@Override
-			public void onFailure(int code, String msg) {
-
-			}
-		});
-	}
 
 	@Override
 	public void onBackPressed() {
@@ -117,15 +108,37 @@ public class MainActivity extends BaseActivity
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
-
-		if (id == R.id.nav_zhihu) {
-			getToolbar().setTitle("知乎");
-		} else if (id == R.id.nav_zhihu_daily) {
-			getToolbar().setTitle("知乎日报");
-		}
-
+		switchNews(id);
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
+	}
+
+	/**
+	 * 切换新闻
+	 * @param id
+	 */
+	private void switchNews(int id) {
+		if(currentId == id) return;
+		Fragment fragment = null;
+		if (id == R.id.nav_zhihu) {
+			currentId = id;
+			getToolbar().setTitle("知乎");
+		} else {
+			//default zhihudaily
+			currentId = R.id.nav_zhihu_daily;
+			getToolbar().setTitle("知乎日报");
+			fragment = ZhihuDailyFragment.getInstance();
+		}
+
+		if(fragment == null) return;
+		Fragment oldFragment = getSupportFragmentManager().findFragmentById(content_main);
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		if(oldFragment == null) {
+			transaction.add(content_main, fragment);
+		} else {
+			transaction.replace(content_main, fragment);
+		}
+		transaction.commit();
 	}
 }

@@ -1,4 +1,4 @@
-package com.quenice.reader.base.model;
+package com.quenice.reader.common.model;
 
 /**
  * 混淆保护标记接口

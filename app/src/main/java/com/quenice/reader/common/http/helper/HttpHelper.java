@@ -2,9 +2,10 @@ package com.quenice.reader.common.http.helper;
 
 import android.content.Context;
 
-import com.quenice.reader.base.Callback;
+import com.quenice.reader.common.callback.Callback;
 import com.quenice.reader.common.http.client.RetrofitClient;
-import com.quenice.reader.common.http.model.ZhihuDaily;
+import com.quenice.reader.detail.model.ZhihuDailyDetail;
+import com.quenice.reader.main.model.ZhihuDaily;
 
 import rx.Observable;
 
@@ -29,6 +30,28 @@ public class HttpHelper {
 	 */
 	public void zhihuDailyListLatest(Context context, Callback<ZhihuDaily> callback) {
 		Observable<ZhihuDaily> observable = RetrofitClient.getInstance().getHttpService().zhihuDailyListLatest();
+		RetrofitClient.getInstance().doRequest(context, observable, callback);
+	}
+
+	/**
+	 * 获得知乎日报的往日消息
+	 * @param context
+	 * @param date
+	 * @param callback
+	 */
+	public void zhihuDailyListBefore(Context context, String date, Callback<ZhihuDaily> callback) {
+		Observable<ZhihuDaily> observable = RetrofitClient.getInstance().getHttpService().zhihuDailyListBefore(date);
+		RetrofitClient.getInstance().doRequest(context, observable, callback);
+	}
+
+	/**
+	 * 获得知乎日报详情
+	 * @param context
+	 * @param id
+	 * @param callback
+	 */
+	public void zhihuDailyDetail(Context context, long id, Callback<ZhihuDailyDetail> callback) {
+		Observable<ZhihuDailyDetail> observable = RetrofitClient.getInstance().getHttpService().zhihuDailyDetail(id);
 		RetrofitClient.getInstance().doRequest(context, observable, callback);
 	}
 }

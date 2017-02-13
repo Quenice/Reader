@@ -1,4 +1,4 @@
-package com.quenice.reader.base;
+package com.quenice.reader.common.callback;
 
 /**
  * 回调接口

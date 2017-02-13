@@ -1,6 +1,6 @@
-package com.quenice.reader.common.http.model;
+package com.quenice.reader.main.model;
 
-import com.quenice.reader.base.model.Protection;
+import com.quenice.reader.common.model.Protection;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package com.quenice.reader.common.http.client;
 import android.content.Context;
 
 import com.google.gson.JsonSyntaxException;
-import com.quenice.reader.base.Callback;
+import com.quenice.reader.common.callback.Callback;
 import com.quenice.reader.common.http.handler.HttpLoggingInterceptor;
 import com.quenice.reader.common.http.helper.HttpService;
 import com.quenice.reader.common.utils.Constants;
