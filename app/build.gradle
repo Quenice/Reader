@@ -53,15 +53,15 @@ android {
             //混淆配置
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        release {
-            //混淆
-            minifyEnabled PROGUARD_FLAG
-            //去掉无用资源
-            shrinkResources PROGUARD_FLAG
-            signingConfig signingConfigs.release
-            //混淆配置
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+//        release {
+//            //混淆
+//            minifyEnabled PROGUARD_FLAG
+//            //去掉无用资源
+//            shrinkResources PROGUARD_FLAG
+//            signingConfig signingConfigs.release
+//            //混淆配置
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
     }
 }
 

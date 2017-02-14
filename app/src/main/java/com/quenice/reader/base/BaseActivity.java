@@ -2,6 +2,7 @@ package com.quenice.reader.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -27,6 +28,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 				setSupportActionBar(mToolbar);
 			} else
 				hasToolbar = false;
+		}
+
+		if(hasToolbar) {
+			ActionBar actionBar = getSupportActionBar();
+			if(actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 
 		initVars();
