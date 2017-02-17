@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.quenice.reader.R;
 
+import butterknife.ButterKnife;
+
 /**
  * Activity 基类
  * Created by qiubb on 2017/2/9.
@@ -20,6 +22,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(getContentView());
+		if (butterKnife())
+			ButterKnife.bind(this);
 		hasToolbar = hasToolbar();
 		if (hasToolbar) {
 			mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -30,14 +34,23 @@ public abstract class BaseActivity extends AppCompatActivity {
 				hasToolbar = false;
 		}
 
-		if(hasToolbar) {
+		if (hasToolbar) {
 			ActionBar actionBar = getSupportActionBar();
-			if(actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+			if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 
 		initVars();
 		initListeners();
 		initData();
+	}
+
+	/**
+	 * 是否需要用到butterknife
+	 *
+	 * @return
+	 */
+	protected boolean butterKnife() {
+		return true;
 	}
 
 	/**

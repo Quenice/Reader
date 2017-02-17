@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Fragment基类
  * Created by qiubb on 2017/2/13.
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 
 public abstract class BaseFragment extends Fragment {
 	protected View mView;
+	private Unbinder mUnbinder;
 
 	protected void initVars() {
 
@@ -38,6 +42,8 @@ public abstract class BaseFragment extends Fragment {
 	@Override
 	public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		mView = inflater.inflate(getContentView(), container, false);
+		if (butterKnife())
+			mUnbinder = ButterKnife.bind(this, mView);
 		try {
 			initVars();
 			initData();
@@ -46,5 +52,21 @@ public abstract class BaseFragment extends Fragment {
 			e.printStackTrace();
 		}
 		return mView;
+	}
+
+	/**
+	 * 是否需要用到butterknife
+	 *
+	 * @return
+	 */
+	protected boolean butterKnife() {
+		return true;
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		if (mUnbinder != null)
+			mUnbinder.unbind();
 	}
 }

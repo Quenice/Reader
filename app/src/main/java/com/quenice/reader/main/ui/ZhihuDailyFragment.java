@@ -12,6 +12,7 @@ import com.quenice.reader.common.utils.Utils;
 import com.quenice.reader.common.widget.refreshloadview.RefreshLoadView;
 import com.quenice.reader.detail.ui.ZhihuDailyDetailActivity;
 import com.quenice.reader.main.adapter.ZhihuDailyNewsListAdapter;
+import com.quenice.reader.main.listener.ScrollToTopListener;
 import com.quenice.reader.main.model.ZhihuDaily;
 
 import java.util.Calendar;
@@ -24,7 +25,7 @@ import java.util.List;
  * Created by qiubb on 2017/2/13.
  */
 
-public class ZhihuDailyFragment extends BaseFragment implements OnItemClickListener<ZhihuDaily.Story> {
+public class ZhihuDailyFragment extends BaseFragment implements OnItemClickListener<ZhihuDaily.Story>, ScrollToTopListener {
 	private ZhihuDailyNewsListAdapter mNewListAdapter;
 	private RefreshLoadView<ZhihuDaily.Story> mRecyclerView;
 	private String newsDate;
@@ -48,6 +49,7 @@ public class ZhihuDailyFragment extends BaseFragment implements OnItemClickListe
 	@Override
 	protected void initData() {
 		super.initData();
+		mRecyclerView.setRefreshing(true);
 		loadNews(null, new RefreshLoadView.FinishDataCallback<ZhihuDaily.Story>() {
 			@Override
 			public void onFinish(List<ZhihuDaily.Story> data, boolean noMoreData) {
@@ -55,6 +57,7 @@ public class ZhihuDailyFragment extends BaseFragment implements OnItemClickListe
 				mNewListAdapter.setOnItemClickListener(ZhihuDailyFragment.this);
 				mRecyclerView.setAdapter(mNewListAdapter);
 				mRecyclerView.init(noMoreData);
+				mRecyclerView.setRefreshing(false);
 			}
 		});
 	}
@@ -82,6 +85,7 @@ public class ZhihuDailyFragment extends BaseFragment implements OnItemClickListe
 		if (Utils.isEmpty(date))
 			HttpHelper.getInstance().zhihuDailyListLatest(getActivity(), new Callback<ZhihuDaily>() {
 				List<ZhihuDaily.Story> list = null;
+
 				@Override
 				public void onSuccess(ZhihuDaily data, String msg) {
 					list = data == null ? null : data.getStories();
@@ -102,6 +106,7 @@ public class ZhihuDailyFragment extends BaseFragment implements OnItemClickListe
 		else
 			HttpHelper.getInstance().zhihuDailyListBefore(getActivity(), newsDate, new Callback<ZhihuDaily>() {
 				List<ZhihuDaily.Story> list = null;
+
 				@Override
 				public void onSuccess(ZhihuDaily data, String msg) {
 					list = data == null ? null : data.getStories();
@@ -124,10 +129,11 @@ public class ZhihuDailyFragment extends BaseFragment implements OnItemClickListe
 
 	/**
 	 * 获得上一天
+	 *
 	 * @return
 	 */
 	private String getBeforeDay() {
-		if(newsCalendar == null) {
+		if (newsCalendar == null) {
 			newsCalendar = new GregorianCalendar();
 		} else {
 			newsCalendar.add(Calendar.DAY_OF_MONTH, -1);
@@ -142,5 +148,11 @@ public class ZhihuDailyFragment extends BaseFragment implements OnItemClickListe
 		intent.putExtra("newsId", bindData.getId());
 		intent.putExtra("newsTitle", bindData.getTitle());
 		startActivity(intent);
+	}
+
+	@Override
+	public void scrollToTop() {
+		if (mRecyclerView != null && mRecyclerView.getRecyclerView() != null && mRecyclerView.getRecyclerView().getChildCount() > 0)
+			mRecyclerView.getRecyclerView().smoothScrollToPosition(0);
 	}
 }

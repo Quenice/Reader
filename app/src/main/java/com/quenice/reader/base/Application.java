@@ -1,8 +1,6 @@
 package com.quenice.reader.base;
 
 
-import com.squareup.picasso.Picasso;
-
 /**
  * QReader Application
  * Created by qiubb on 2017/2/9.
@@ -22,7 +20,7 @@ public class Application extends android.app.Application {
 	}
 
 	private void initVars() {
-		Picasso.with(this).setLoggingEnabled(true);
-		Picasso.with(this).setIndicatorsEnabled(true);
+//		Picasso.with(this).setLoggingEnabled(true);
+//		Picasso.with(this).setIndicatorsEnabled(true);
 	}
 }

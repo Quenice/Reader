@@ -1,9 +1,7 @@
 package com.quenice.reader.main.ui;
 
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -12,30 +10,24 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.quenice.reader.R;
 import com.quenice.reader.base.BaseActivity;
+import com.quenice.reader.main.listener.ScrollToTopListener;
+
+import butterknife.OnClick;
 
 import static com.quenice.reader.R.id.content_main;
 
 public class MainActivity extends BaseActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
 
-
 	private int currentId;
+	private Fragment mCurrentFragment;
 
 	@Override
 	protected void initVars() {
 		super.initVars();
-		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-		fab.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-						.setAction("Action", null).show();
-			}
-		});
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -66,6 +58,12 @@ public class MainActivity extends BaseActivity
 	@Override
 	protected boolean hasToolbar() {
 		return true;
+	}
+
+	@OnClick(R.id.fab_up)
+	public void onClickUp() {
+		if (mCurrentFragment instanceof ScrollToTopListener)
+			((ScrollToTopListener) mCurrentFragment).scrollToTop();
 	}
 
 
@@ -116,10 +114,11 @@ public class MainActivity extends BaseActivity
 
 	/**
 	 * 切换新闻
+	 *
 	 * @param id
 	 */
 	private void switchNews(int id) {
-		if(currentId == id) return;
+		if (currentId == id) return;
 		Fragment fragment = null;
 		if (id == R.id.nav_zhihu) {
 			currentId = id;
@@ -131,14 +130,15 @@ public class MainActivity extends BaseActivity
 			fragment = ZhihuDailyFragment.getInstance();
 		}
 
-		if(fragment == null) return;
+		if (fragment == null) return;
 		Fragment oldFragment = getSupportFragmentManager().findFragmentById(content_main);
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		if(oldFragment == null) {
+		if (oldFragment == null) {
 			transaction.add(content_main, fragment);
 		} else {
 			transaction.replace(content_main, fragment);
 		}
+		mCurrentFragment = fragment;
 		transaction.commit();
 	}
 }
