@@ -1,4 +1,4 @@
-package com.quenice.reader.detail.behavior;
+package com.quenice.reader.common.behavior;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
@@ -20,8 +20,7 @@ public class ScrollingFloatingActionButtonBehavior extends FloatingActionButton.
 	public boolean onStartNestedScroll(final CoordinatorLayout coordinatorLayout, final FloatingActionButton child,
 	                                   final View directTargetChild, final View target, final int nestedScrollAxes) {
 		// Ensure we react to vertical scrolling
-		return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL
-				|| super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
+		return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL;
 	}
 
 	@Override

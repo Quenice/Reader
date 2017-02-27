@@ -1,8 +1,7 @@
-package com.quenice.reader.detail.ui;
+package com.quenice.reader.module.zhihudaily.ui;
 
 import android.annotation.SuppressLint;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -16,9 +15,9 @@ import android.widget.TextView;
 import com.quenice.reader.R;
 import com.quenice.reader.base.BaseActivity;
 import com.quenice.reader.common.callback.Callback;
-import com.quenice.reader.common.http.helper.HttpHelper;
+import com.quenice.reader.common.http.HttpHelper;
 import com.quenice.reader.common.utils.Utils;
-import com.quenice.reader.detail.model.ZhihuDailyDetail;
+import com.quenice.reader.module.zhihudaily.model.ZhihuDailyDetail;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -40,10 +39,6 @@ public class ZhihuDailyDetailActivity extends BaseActivity {
 	Toolbar toolbar;
 	@BindView(R.id.tv_title)
 	TextView tv_title;
-	@BindView(R.id.fab_up)
-	FloatingActionButton fab_up;
-	@BindView(R.id.fab_share)
-	FloatingActionButton fab_share;
 	@BindView(R.id.nest)
 	NestedScrollView nest;
 	private long mNewsId;
@@ -105,7 +100,7 @@ public class ZhihuDailyDetailActivity extends BaseActivity {
 		mWebView.getSettings().setDatabaseEnabled(true);
 		mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
-		HttpHelper.getInstance().zhihuDailyDetail(this, mNewsId, new Callback<ZhihuDailyDetail>() {
+		HttpHelper.zhihuDaily().detail(this, mNewsId, new Callback<ZhihuDailyDetail>() {
 			@Override
 			public void onSuccess(ZhihuDailyDetail data, String msg) {
 				Picasso.with(ZhihuDailyDetailActivity.this).load(data.getImage()).into(iv_header);

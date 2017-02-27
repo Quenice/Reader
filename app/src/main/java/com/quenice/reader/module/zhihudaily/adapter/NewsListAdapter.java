@@ -1,4 +1,4 @@
-package com.quenice.reader.main.adapter;
+package com.quenice.reader.module.zhihudaily.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,11 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.quenice.reader.R;
+import com.quenice.reader.module.zhihudaily.model.ZhihuDaily;
 import com.quenice.reader.common.callback.OnItemClickListener;
 import com.quenice.reader.common.utils.Utils;
 import com.quenice.reader.common.widget.refreshloadview.RLDataModel;
 import com.quenice.reader.common.widget.refreshloadview.RLRecyclerAdapter;
-import com.quenice.reader.main.model.ZhihuDaily;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -22,11 +22,11 @@ import java.util.List;
  * Created by qiubb on 2017/2/10.
  */
 
-public class ZhihuDailyNewsListAdapter extends RLRecyclerAdapter<ZhihuDaily.Story> {
+public class NewsListAdapter extends RLRecyclerAdapter<ZhihuDaily.Story> {
 
 	private OnItemClickListener<ZhihuDaily.Story> onItemClickListener;
 
-	public ZhihuDailyNewsListAdapter(Context context, List<ZhihuDaily.Story> data) {
+	public NewsListAdapter(Context context, List<ZhihuDaily.Story> data) {
 		super(context, data);
 	}
 

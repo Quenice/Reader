@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.quenice.reader.common.http.handler;
+package com.quenice.reader.common.http;
 
 
 import com.quenice.reader.common.utils.L;

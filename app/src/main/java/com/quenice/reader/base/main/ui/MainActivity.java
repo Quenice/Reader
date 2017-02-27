@@ -1,4 +1,4 @@
-package com.quenice.reader.main.ui;
+package com.quenice.reader.base.main.ui;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,7 +13,8 @@ import android.view.MenuItem;
 
 import com.quenice.reader.R;
 import com.quenice.reader.base.BaseActivity;
-import com.quenice.reader.main.listener.ScrollToTopListener;
+import com.quenice.reader.base.main.listener.ScrollToTopListener;
+import com.quenice.reader.module.zhihudaily.ui.ZhihuDailyListFragment;
 
 import butterknife.OnClick;
 
@@ -127,7 +128,7 @@ public class MainActivity extends BaseActivity
 			//default zhihudaily
 			currentId = R.id.nav_zhihu_daily;
 			getToolbar().setTitle("知乎日报");
-			fragment = ZhihuDailyFragment.getInstance();
+			fragment = ZhihuDailyListFragment.getInstance();
 		}
 
 		if (fragment == null) return;

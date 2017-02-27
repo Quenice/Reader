@@ -1,4 +1,4 @@
-package com.quenice.reader.detail.model;
+package com.quenice.reader.module.zhihudaily.model;
 
 import com.quenice.reader.common.model.Protection;
 

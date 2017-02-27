@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".main.ui.MainActivity"
+            android:name=".base.main.ui.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".detail.ui.ZhihuDailyDetailActivity"
+            android:name=".module.zhihudaily.ui.ZhihuDailyDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

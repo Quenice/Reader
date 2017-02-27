@@ -1,5 +1,10 @@
 package com.quenice.reader.common.utils;
 
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * 常量
  * Created by qiubb on 2017/2/9.
@@ -8,6 +13,8 @@ package com.quenice.reader.common.utils;
 public final class Constants {
 	private Constants() {
 	}
+
+
 
 	/**
 	 * 当前的内容类型
@@ -33,5 +40,15 @@ public final class Constants {
 		int JSON_PARSE_ERROR = 997;
 		int RESPONSE_NULL = 998;
 		int NONE_NET = 999;
+	}
+
+	@TYPE
+	public final static int TYPE_ZHIHUDAILY = 1;
+	@TYPE
+	public final static int TYPE_GUOKE = 2;
+
+	@IntDef({TYPE_ZHIHUDAILY, TYPE_GUOKE})
+	@Retention(RetentionPolicy.SOURCE)
+	public @interface TYPE {
 	}
 }

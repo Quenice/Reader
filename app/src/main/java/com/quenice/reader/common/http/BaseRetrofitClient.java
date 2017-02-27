@@ -1,11 +1,9 @@
-package com.quenice.reader.common.http.client;
+package com.quenice.reader.common.http;
 
 import android.content.Context;
 
 import com.google.gson.JsonSyntaxException;
 import com.quenice.reader.common.callback.Callback;
-import com.quenice.reader.common.http.handler.HttpLoggingInterceptor;
-import com.quenice.reader.common.http.helper.HttpService;
 import com.quenice.reader.common.utils.Constants;
 import com.quenice.reader.common.utils.NetUtils;
 
@@ -29,37 +27,25 @@ import rx.schedulers.Schedulers;
  * Retrofit网络请求类
  * Created by qiubb on 2016/10/31.
  */
-public class RetrofitClient {
-	private static RetrofitClient mRetrofitClient;
+public abstract class BaseRetrofitClient<HTTPSERVICE> {
 	private OkHttpClient mOkHttpClient;
 	private Retrofit mRetrofit;
-	private HttpService mHttpService;
+	private HTTPSERVICE mHttpService;
 	private HttpLoggingInterceptor mHttpLoggingInterceptor;
 	private final Map<Context, List<Subscription>> callMap = new HashMap<>();
 
-	private RetrofitClient() {
+	public BaseRetrofitClient() {
 		init();
 	}
 
-	public HttpService getHttpService() {
+	public HTTPSERVICE getHttpService() {
 		return mHttpService;
 	}
 
-	public static synchronized RetrofitClient getInstance() {
-		return mRetrofitClient == null ? (mRetrofitClient = new RetrofitClient()) : mRetrofitClient;
-	}
-
 	/**
-	 * 切换环境之后，重新配置网络配置
+	 * 初始化知乎日报网络连接
 	 */
-	public void reBuild() {
-		init();
-	}
-
-	/**
-	 * 初始化
-	 */
-	private void init() {
+	protected void init() {
 		mHttpLoggingInterceptor = new HttpLoggingInterceptor();
 		mOkHttpClient = new OkHttpClient.Builder()
 				.addInterceptor(mHttpLoggingInterceptor)
@@ -69,12 +55,16 @@ public class RetrofitClient {
 				.build();
 		mRetrofit = new Retrofit.Builder()
 				.client(mOkHttpClient)
-				.baseUrl(Constants.Urls.ZhiHuDaily.BASE)
+				.baseUrl(baseUrl())
 				.addConverterFactory(GsonConverterFactory.create())
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 				.build();
-		mHttpService = mRetrofit.create(HttpService.class);
+		mHttpService = mRetrofit.create(httpServiceClass());
 	}
+
+	protected abstract String baseUrl();
+
+	protected abstract Class<HTTPSERVICE> httpServiceClass();
 
 	/**
 	 * 发起请求
